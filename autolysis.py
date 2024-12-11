@@ -60,7 +60,7 @@ def generate_narrative(info, summary, missing_values, filename):
 # Main function to execute the analysis
 def main():
     # Define the CSV filename
-    filename = 'happiness.csv'  # Ensure the file is uploaded in Colab or present in the current directory
+    filename = 'dataset.csv'  # Ensure the file is uploaded in Colab or present in the current directory
 
     # Analyze the dataset
     info, summary, missing_values = analyze_dataset(filename)
