@@ -25,32 +25,32 @@ from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
 from tabulate import tabulate
 
-import shutil
 import os
+import shutil
 
-def delete_folder(path):
-    def on_error(func, path, exc_info):
-        import stat
-        if not os.access(path, os.W_OK):
-            os.chmod(path, stat.S_IWUSR)
-            func(path)
-        else:
+def handle_remove_error(func, path, exc_info):
+    print(f"Error removing {path}: {exc_info}")
+    os.chmod(path, 0o777)  # Change permissions
+    func(path)  # Retry operation
+
+def clone_latest_branch(repo_id, branch, deadline, evals):
+    repo_path = f'C:\\Users\\desig\\AppData\\Local\\tds\\tds-sep-24-project-2\\{repo_id}'
+    
+    # Message to track operation
+    msg = f"Cloning branch {branch} of repo {repo_id}"
+
+    # Delete the repository if it exists
+    if os.path.exists(repo_path):
+        try:
+            shutil.rmtree(repo_path, onerror=handle_remove_error)
+            print(f"Deleted existing repository at {repo_path}")
+        except Exception as e:
+            print(f"Failed to delete {repo_path}: {e}")
             raise
-    try:
-        shutil.rmtree(path, onerror=on_error)
-    except Exception as e:
-        print(f"Failed to delete {path}. Error: {e}")
+    
+    # Placeholder for cloning logic
+    print(f"{msg}: Placeholder for cloning logic.")
 
-# Example usage in clone_latest_branch
-def clone_latest_branch(repo_id, head, deadline, evals):
-    repo_path = f"/path/to/repo/{repo_id}"
-    try:
-        if os.path.exists(repo_path):
-            delete_folder(repo_path)
-        # Proceed with cloning
-    except Exception as e:
-        msg = f"Error while handling repo {repo_id} with head {head}"
-        print(f"{msg}: {e}")
 
 
 load_dotenv()
