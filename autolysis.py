@@ -25,34 +25,6 @@ from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
 from tabulate import tabulate
 
-import os
-import shutil
-
-def handle_remove_error(func, path, exc_info):
-    print(f"Error removing {path}: {exc_info}")
-    os.chmod(path, 0o777)  # Change permissions
-    func(path)  # Retry operation
-
-def clone_latest_branch(repo_id, branch, deadline, evals):
-    repo_path = f'C:\\Users\\desig\\AppData\\Local\\tds\\tds-sep-24-project-2\\{repo_id}'
-    
-    # Message to track operation
-    msg = f"Cloning branch {branch} of repo {repo_id}"
-
-    # Delete the repository if it exists
-    if os.path.exists(repo_path):
-        try:
-            shutil.rmtree(repo_path, onerror=handle_remove_error)
-            print(f"Deleted existing repository at {repo_path}")
-        except Exception as e:
-            print(f"Failed to delete {repo_path}: {e}")
-            raise
-    
-    # Placeholder for cloning logic
-    print(f"{msg}: Placeholder for cloning logic.")
-
-
-
 load_dotenv()
 # Set the AI Proxy token
 if "AIPROXY_TOKEN" not in os.environ:
