@@ -195,3 +195,31 @@ if __name__ == "__main__":
     else:
         csv_filename = sys.argv[1]
         analyze_and_generate_report(csv_filename)
+
+import shutil
+import os
+
+def delete_folder(path):
+    def on_error(func, path, exc_info):
+        import stat
+        if not os.access(path, os.W_OK):
+            os.chmod(path, stat.S_IWUSR)
+            func(path)
+        else:
+            raise
+    try:
+        shutil.rmtree(path, onerror=on_error)
+    except Exception as e:
+        print(f"Failed to delete {path}. Error: {e}")
+
+# Example usage in clone_latest_branch
+def clone_latest_branch(repo_id, head, deadline, evals):
+    repo_path = f"/path/to/repo/{repo_id}"
+    try:
+        if os.path.exists(repo_path):
+            delete_folder(repo_path)
+        # Proceed with cloning
+    except Exception as e:
+        msg = f"Error while handling repo {repo_id} with head {head}"
+        print(f"{msg}: {e}")
+
